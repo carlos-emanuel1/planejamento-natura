@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultoria PRO - Natura</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="manifest" href="manifest.json" id="pwa-manifest">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-brand">
+            <i data-lucide="sparkles" class="brand-icon"></i>
+            <div>
+                <h1>Consultoria <span class="brand-highlight">PRO</span></h1>
+                <p>Natura & Co</p>
+            </div>
+        </div>
+        
+        <div class="global-search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="globalSearch" placeholder="Pesquisar clientes, produtos ou vendas... (Ctrl + K)" autocomplete="off">
+        </div>
+
+        <div class="header-actions">
+            <button id="toggleTheme" class="btn-icon" title="Alternar Modo Escuro">
+                <i data-lucide="moon"></i>
+            </button>
+            <button id="quickCalcToggle" class="btn-icon header-calc-btn" title="Calculadora Rápida">
+                <i data-lucide="calculator"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <button class="nav-item active" data-tab="dashboard">
+                <i data-lucide="layout-dashboard"></i> <span>Dashboard</span>
+            </button>
+            <button class="nav-item" data-tab="calculadora">
+                <i data-lucide="calculator"></i> <span>Calculadoras</span>
+            </button>
+            <button class="nav-item" data-tab="vendas">
+                <i data-lucide="shopping-bag"></i> <span>Vendas & Histórico</span>
+            </button>
+            <button class="nav-item" data-tab="clientes">
+                <i data-lucide="users"></i> <span>Clientes</span>
+            </button>
+            <button class="nav-item" data-tab="produtos">
+                <i data-lucide="package"></i> <span>Estoque & Produtos</span>
+            </button>
+            <button class="nav-item" data-tab="relatorios">
+                <i data-lucide="pie-chart"></i> <span>Relatórios</span>
+            </button>
+            <button class="nav-item" data-tab="configuracoes">
+                <i data-lucide="settings"></i> <span>Ajustes & Backup</span>
+            </button>
+        </nav>
+
+        <main class="main-content">
+            
+            <section id="tab-dashboard" class="tab-content active">
+                <div class="section-title">
+                    <h2>Visão Geral do Negócio</h2>
+                    <p>Como estão suas vendas e metas hoje.</p>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card premium">
+                        <div class="kpi-header"><span>Lucro de Hoje</span><i data-lucide="trending-up" class="text-success"></i></div>
+                        <h3 id="kpi-lucro-hoje">R$ 0,00</h3>
+                    </div>
+                    <div class="kpi-card premium">
+                        <div class="kpi-header"><span>Lucro do Mês</span><i data-lucide="calendar"></i></div>
+                        <h3 id="kpi-lucro-mes">R$ 0,00</h3>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header"><span>Total Vendido</span><i data-lucide="dollar-sign"></i></div>
+                        <h3 id="kpi-total-vendido">R$ 0,00</h3>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header"><span>Total Recebido</span><i data-lucide="check-circle" class="text-success"></i></div>
+                        <h3 id="kpi-total-recebido">R$ 0,00</h3>
+                    </div>
+                    <div class="kpi-card warning">
+                        <div class="kpi-header"><span>Total Pendente</span><i data-lucide="alert-circle" class="text-warning"></i></div>
+                        <h3 id="kpi-total-pendente">R$ 0,00</h3>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header"><span>Qtd Pedidos</span><i data-lucide="shopping-cart"></i></div>
+                        <h3 id="kpi-qtd-pedidos">0</h3>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header"><span>Ticket Médio</span><i data-lucide="award"></i></div>
+                        <h3 id="kpi-ticket-medio">R$ 0,00</h3>
+                    </div>
+                </div>
+
+                <div class="meta-section card">
+                    <h3><i data-lucide="target"></i> Suas Metas Disponíveis</h3>
+                    <div class="meta-item">
+                        <div class="meta-info"><span>Meta Mensal</span><strong id="txt-meta-mensal">R$ 0,00 / R$ 3.000,00</strong></div>
+                        <div class="progress-bar-bg"><div id="bar-meta-mensal" class="progress-bar" style="width: 0%"></div></div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-info"><span>Meta Semanal</span><strong id="txt-meta-semanal">R$ 0,00 / R$ 750,00</strong></div>
+                        <div class="progress-bar-bg"><div id="bar-meta-semanal" class="progress-bar progress-orange" style="width: 0%"></div></div>
+                    </div>
+                    <div class="meta-info text-highlight" id="meta-remaining-text">Digite ou configure uma meta na aba de ajustes para acompanhar o progresso!</div>
+                </div>
+            </section>
+
+            <section id="tab-calculadora" class="tab-content">
+                <div class="grid-2-col">
+                    <div class="card">
+                        <h3><i data-lucide="calculator"></i> Calculadora de Pedidos & Vendas</h3>
+                        <p class="sub-text">Simule cenários completos e salve como venda direta.</p>
+                        
+                        <div class="form-group">
+                            <label>Valor de Catálogo (Revenda)</label>
+                            <input type="number" id="calc-catalogo" value="100" min="0" step="0.01">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Desconto para o Cliente: <span id="lbl-desc-cliente">0%</span></label>
+                            <div class="slider-container">
+                                <input type="range" id="calc-desc-cliente" min="0" max="50" value="0" step="5">
+                            </div>
+                            <div class="chip-group">
+                                <button class="chip" onclick="setDescCliente(0)">0%</button>
+                                <button class="chip" onclick="setDescCliente(10)">10%</button>
+                                <button class="chip" onclick="setDescCliente(15)">15%</button>
+                                <button class="chip" onclick="setDescCliente(20)">20%</button>
+                                <button class="chip" onclick="setDescCliente(30)">30%</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Desconto da Consultora (Margem Natura)</label>
+                            <select id="calc-desc-nat">
+                                <option value="20">20% (Bronze)</option>
+                                <option value="30" selected>30% (Prata / Ouro)</option>
+                                <option value="35">35% (Diamante)</option>
+                                <option value="40">40% (Campanhas Especiais)</option>
+                            </select>
+                        </div>
+
+                        <div class="grid-2-col" style="gap: 12px; margin-top: 0;">
+                            <div class="form-group">
+                                <label>Frete (R$)</label>
+                                <input type="number" id="calc-frete" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Custos Brindes (R$)</label>
+                                <input type="number" id="calc-brindes" value="0" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Forma de Pagamento / Parcelas</label>
+                            <select id="calc-parcelas">
+                                <option value="1">À vista (Sem taxas)</option>
+                                <option value="2">2x no Cartão (3.5% taxa)</option>
+                                <option value="3">3x no Cartão (4.9% taxa)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vincular Cliente</label>
+                            <input type="text" id="calc-venda-cliente" placeholder="Nome do cliente (opcional)" list="lista-clientes-sugestao">
+                            <datalist id="lista-clientes-sugestao"></datalist>
+                        </div>
+
+                        <button id="btn-salvar-venda" class="btn btn-primary style="width: 100%; margin-top: 15px;"><i data-lucide="check"></i> Registrar esta Venda</button>
+                    </div>
+
+                    <div class="card result-card" id="simulador-resultado-box">
+                        <h3>Resumo da Venda</h3>
+                        <div class="status-indicator" id="sim-status-badge">Excelente Margem</div>
+                        
+                        <div class="sim-row"><span>Preço Final para o Cliente:</span><strong id="sim-venda-cliente">R$ 0,00</strong></div>
+                        <div class="sim-row"><span>Custo de Compra (Natura + Frete):</span><span id="sim-custo-nat">R$ 0,00</span></div>
+                        <div class="sim-row"><span>Desconto Aplicado ao Cliente:</span><span id="sim-economia-cliente" class="text-warning">R$ 0,00</span></div>
+                        <hr>
+                        <div class="sim-row main-result"><span>Lucro Líquido Real:</span><strong id="sim-lucro-liquido">R$ 0,00</strong></div>
+                        <div class="sim-row"><span>Margem de Lucro %:</span><strong id="sim-margem-pct">0%</strong></div>
+                        
+                        <div class="alert-box info" id="sim-sugestao-box">
+                            <i data-lucide="lightbulb"></i>
+                            <span id="sim-sugestao-texto">Dica: Mantenha o desconto abaixo de 15% para garantir boa rentabilidade.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2-col" style="margin-top: 20px;">
+                    <div class="card">
+                        <h3>Calculadora de Margem / Markup</h3>
+                        <div class="form-group"><label>Preço Pago à Natura</label><input type="number" id="margem-custo" value="50"></div>
+                        <div class="form-group"><label>Preço Cobrado do Cliente</label><input type="number" id="margem-venda" value="100"></div>
+                        <div class="sim-row"><span>Lucro Real:</span><strong id="m-lucro">R$ 50,00</strong></div>
+                        <div class="sim-row"><span>Margem de Lucro:</span><strong id="m-pct">50%</strong></div>
+                        <div class="sim-row"><span>Markup:</span><strong id="m-markup">2.00x</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-vendas" class="tab-content">
+                <div class="section-title">
+                    <h2>Histórico & Fluxo de Caixa</h2>
+                    <p>Gerencie recebimentos de pedidos efetuados.</p>
+                </div>
+
+                <div class="filter-bar card">
+                    <input type="text" id="filtro-venda-busca" placeholder="Filtrar por cliente...">
+                    <select id="filtro-venda-status">
+                        <option value="todos">Todos os Status</option>
+                        <option value="pago">Apenas Pagos</option>
+                        <option value="pendente">Apenas Pendentes</option>
+                    </select>
+                </div>
+
+                <div id="lista-vendas-cards" class="cards-list-container">
+                    </div>
+            </section>
+
+            <section id="tab-clientes" class="tab-content">
+                <div class="grid-2-col">
+                    <div class="card">
+                        <h3><i data-lucide="user-plus"></i> Novo Cliente</h3>
+                        <form id="form-cliente">
+                            <div class="form-group"><label>Nome do Cliente</label><input type="text" id="c-nome" required></div>
+                            <div class="form-group"><label>Telefone</label><input type="tel" id="c-tel" placeholder="(00) 00000-0000"></div>
+                            <div class="form-group"><label>Cidade</label><input type="text" id="c-cidade"></div>
+                            <div class="form-group"><label>Observações</label><textarea id="c-obs" rows="2"></textarea></div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Salvar Registro</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Ranking & Lista de Clientes</h3>
+                        <div id="lista-clientes" class="cards-list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-produtos" class="tab-content">
+                <div class="grid-2-col">
+                    <div class="card">
+                        <h3><i data-lucide="package-plus"></i> Cadastro de Produto / Estoque</h3>
+                        <form id="form-produto">
+                            <div class="form-group"><label>Nome do Produto</label><input type="text" id="p-nome" required></div>
+                            <div class="form-group"><label>Categoria</label><input type="text" id="p-categoria" placeholder="Perfumaria, Corpo, Maquiagem..."></div>
+                            <div class="grid-2-col" style="margin: 0; gap: 10px;">
+                                <div class="form-group"><label>Preço Compra (Natura)</label><input type="number" id="p-custo" step="0.01" required></div>
+                                <div class="form-group"><label>Preço Venda (Sugerido)</label><input type="number" id="p-venda" step="0.01" required></div>
+                            </div>
+                            <div class="form-group"><label>Quantidade em Estoque</label><input type="number" id="p-estoque" value="1" min="0"></div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Adicionar ao Estoque</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Seu Estoque Atual</h3>
+                        <div id="lista-produtos" class="cards-list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-relatorios" class="tab-content">
+                <div class="section-title">
+                    <h2>Desempenho Comercial</h2>
+                    <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer"></i> Imprimir Relatório Anual</button>
+                </div>
+                <div class="grid-2-col">
+                    <div class="card">
+                        <h3>Lucro por Período</h3>
+                        <canvas id="chartLucro"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Categorias / Produtos mais Vendidos</h3>
+                        <canvas id="chartProdutos"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-configuracoes" class="tab-content">
+                <div class="card">
+                    <h3><i data-lucide="settings"></i> Definição de Metas & Parâmetros</h3>
+                    <div class="form-group"><label>Configurar Meta de Lucro Mensal (R$)</label><input type="number" id="cfg-meta-mensal" value="3000"></div>
+                    <div class="form-group"><label>Configurar Meta de Lucro Semanal (R$)</label><input type="number" id="cfg-meta-semanal" value="750"></div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <h3><i data-lucide="hard-drive"></i> Segurança e Integridade dos Dados</h3>
+                    <p class="sub-text">Seu banco de dados local está armazenado com segurança neste dispositivo.</p>
+                    <div class="chip-group" style="margin-top: 15px;">
+                        <button class="btn btn-secondary" id="btn-export-json"><i data-lucide="download"></i> Exportar Cópia de Segurança (JSON)</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()"><i data-lucide="upload"></i> Importar Backup</button>
+                        <button class="btn btn-secondary" id="btn-export-csv"><i data-lucide="file-spreadsheet"></i> Exportar Planilha (CSV)</button>
+                        <input type="file" id="import-file" style="display:none" accept=".json">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="quickCalcDock" class="quick-calc-dock">
+        <div class="quick-calc-header">
+            <h4><i data-lucide="zap"></i> Cálculo Rápido de Balcão</h4>
+            <button id="quickCalcClose" class="btn-icon"><i data-lucide="x"></i></button>
+        </div>
+        <div class="form-group">
+            <label>Valor de Venda Bruto (R$)</label>
+            <input type="number" id="qc-valor" value="100">
+        </div>
+        <div class="quick-calc-results">
+            <div class="sim-row"><span>Sugestão Desc (30% Margem):</span><strong class="text-success" id="qc-sugestao-desc">15%</strong></div>
+            <div class="sim-row"><span>Retorno/Lucro Médio Estimado:</span><strong id="qc-lucro-estimado">R$ 30,00</strong></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
